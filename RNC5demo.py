@@ -49,3 +49,32 @@ n_sample=data_mic.shape[1]
 e_buffer=np.zeros([num_ref,fft_size//2])
 x_buffer=np.zeros([num_ref,num_spkr,fftsize])
 y_buffer=np.zeros([num_spkr,order_2nd_path])
+
+imc=np.zeros([num_ref,num_spkr])
+#频域输入功率估计（用于归一化步长）
+px_power=np.zeros([num_ref,num_spkr,fft_real_size])
+
+#t梯度
+grad_k=np.zeros([num_ref,num_spkr,fft_real_size],dype=np.complex64)
+
+#自适应滤波器权重
+
+w_n=np.zeros([num_ref,num_spkr,order_adaptive])
+w_k=np.zeros([num_ref,num_spkr,fft_real_size])
+
+#输出
+y_n=np.zeros([num_spkr])
+
+#闭环误差
+
+e_closed=np.zeros([num_mic,n_sample])
+
+#
+ref_slice=slice(0,6) #修改这里来匹配参考信号数量
+y_out=[]
+#主循环
+
+for i in range(1,n_samaple):
+  #更新缓冲区
+  x_buffer=np.roll(x_buffer,-1,axis=2)
+  x_buffer
